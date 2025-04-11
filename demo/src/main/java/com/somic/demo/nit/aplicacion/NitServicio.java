@@ -38,10 +38,18 @@ public class NitServicio {
 
         return convertirADTO(savedNit);
     }
+    public NitDTO saveConId(NitDTO nitDTO) {
+        Nit nit = convertirAEntidad(nitDTO);
+        nit.setId(nitDTO.getId());
+        Nit savedNit = nitRepositorio.save(nit);
+
+        return convertirADTO(savedNit);
+    }
 
     public Nit editar(long nitId, NitDTO nitDTO) {
         nitDTO.setId(nitId);
-        return convertirAEntidad(nitDTO);
+        NitDTO savedNit = saveConId(nitDTO);
+        return convertirAEntidad(savedNit);
     }
 
 
