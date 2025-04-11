@@ -6,6 +6,7 @@ import com.somic.demo.nit.dominio.NitRepositorio;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,24 @@ public class NitServicio {
     }
 
     public void deleteById(Long id) {
-        NitRepositorio.deleteById(id);
+        nitRepositorio.deleteById(id);
+    }
+
+    public Optional<NitDTO> findById(Long id) {
+        return nitRepositorio.findById(id)
+                .map(this::convertirADTO);
+    }
+
+    public NitDTO save(NitDTO nitDTO) {
+        Nit nit = convertirAEntidad(nitDTO);
+        Nit savedNit = nitRepositorio.save(nit);
+
+        return convertirADTO(savedNit);
+    }
+
+    public Nit editar(long nitId, NitDTO nitDTO) {
+        nitDTO.setId(nitId);
+        return convertirAEntidad(nitDTO);
     }
 
 
